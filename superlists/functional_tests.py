@@ -2,8 +2,10 @@ from selenium import webdriver
 import unittest
 
 class NewVisitorTest(unittest.TestCase):
+
 	def setUp(self):
-		self.browser = webdriver.Firefox()
+
+		self.browser = webdriver.Chrome('chromedriver')
 		self.browser.implicitly_wait(3)
 	#otwarcie przegladarki
 	def tearDown(self):
