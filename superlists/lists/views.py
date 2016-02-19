@@ -3,6 +3,9 @@ from django.http import HttpResponse
 
 # Create your views here.
 def home_page(request):
-	return HttpResponse('<html><title>Listy rzeczy do zrobienia</title></html>')
+    if request.method == 'POST':
+        return HttpResponse(request.POST['item_text'])
+    return render(request, 'home.html')
+
 def about_me_page(request):
     pass

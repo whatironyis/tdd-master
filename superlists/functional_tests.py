@@ -7,7 +7,7 @@ class NewVisitorTest(unittest.TestCase):
 
 	def setUp(self):
 		self.browser = webdriver.Chrome('chromedriver') #otwarcie przegladarki
-		self.browser.implicitly_wait(15)
+		self.browser.implicitly_wait(5)
 
 	def tearDown(self):
 		self.browser.quit() #zamkniecie przegladarki
@@ -15,9 +15,9 @@ class NewVisitorTest(unittest.TestCase):
 	def test_can_start_a_list_and_retrieve_it_later(self):
 		self.browser.get('http://localhost:8000')
 		self.assertIn('Listy',self.browser.title) #sprawdza czy strona ma w sobie listy
-		#self.fail('Zakonczenie testu')
+
 		header_text = self.browser.find_element_by_tag_name('h1').text
-		self.assertIn('Listy',self.browser.header_text) #sprawdza czy naglowek ma listy
+		self.assertIn('Lista',header_text) #sprawdza czy naglowek ma listy
 
 		inputbox = self.browser.find_element_by_id('id_new_item')
 		self.assertEqual(
@@ -29,8 +29,15 @@ class NewVisitorTest(unittest.TestCase):
 		inputbox.send_keys('Kupic cos tam')
 		#klawiszem enter zatwierdza
 		inputbox.send_keys(Keys.ENTER)
+		#sprawdzenie czy w tabeli jest 'Kupic cos tam'
 
-#1.Kupic pawie piora
+		table = self.browser.find_element_by_id('id_list_table')
+		rows = table.find_elements_by_tag_name('tr')
+		self.assertTrue(
+			any(row.text == '1.Kupic cos tam' for row in rows),
+			'nie pokazuje nowej rzeczy w tabeli'
+		)
+		self.fail('Zakonczenie testu')
 #kolejne zadanie
 #strona zostala zaktualniona i wyswietla dwie rzeczy
 #sprawdzenie czy strona zapamietuje te rzeczy
