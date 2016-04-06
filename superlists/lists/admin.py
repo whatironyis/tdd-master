@@ -1,3 +1,4 @@
 from django.contrib import admin
+from lists.models import jobs
 
-# Register your models here.
+admin.site.register(jobs)

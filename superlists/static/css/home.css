@@ -1,0 +1,38 @@
+html {
+  background-image: url("bgimage.jpg");
+  background-size: cover;
+}
+body {
+  background: transparent;
+}
+
+body, input, button {
+  font-family: 'Source Sans Pro', sans-serif;
+}
+.window1 {
+    position: relative;
+    background-image: url("28h3fwh.png");
+    border-radius: 10px;
+    height: 100%;
+    width: 33%;
+}
+h1 {
+    color: white;
+    text-align: center;
+}
+.user_menu {
+   text-align: right;
+}
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+
+}
+li {
+    display: inline;
+}
+.todo {
+    text-align: center;
+    color: white;
+}

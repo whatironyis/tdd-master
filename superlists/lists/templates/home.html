@@ -1,16 +1,30 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Listy rzeczy do zrobienia</title>
+    {% load staticfiles %}
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+    <title>To Do List - Jobs</title>
 </head>
 <body>
-<h1>Lista</h1>
-<form method="POST">
-    <input name="item_text" id="id_new_item" placeholder="Wpisz rzecz do zrobienia"/>
-    {% csrf_token %}
-</form>
+<div class="user_menu">
+<ul>
+   <li>Użytkownik:{{ user }}</li>
+   <li><a href="/logout">Logout</a></li>
+</ul>
+<div class="window1">
+    <h1>Lista rzeczy do zrobienia:</h1>
+<div class="todo">
+{% for x in items %}
+<p>{{ x.name }} - {{ x.created|date:"D d M Y" }}</p>
+<p>{{ x.description }}</p>
+<p>{{ x.assign }}</p>
+<hr />
+{% endfor %}
+</div>
 <table id="id_list_table">
-    <tr><td>{{ new_item_text }}</td></tr>
+<tr><td>{{ new_item_text }}</td></tr>
 </table>
+
+</div>
 </body>
 </html>
