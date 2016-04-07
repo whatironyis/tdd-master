@@ -22,4 +22,5 @@ urlpatterns = [
 	url(r'^admin/',include(admin.site.urls)),
     url(r'^login/$', views.Login),
     url(r'^logout/$', views.Logout),
+    url(r'^new/$', views.post_new, name='post_new'),
 ]

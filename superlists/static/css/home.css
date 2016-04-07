@@ -1,38 +1,47 @@
-html {
+a:hover, a:visited, a:link, a:active
+{
+    text-decoration: none !important;
+}
+body {
   background-image: url("bgimage.jpg");
   background-size: cover;
 }
-body {
-  background: transparent;
+.container-fluid {
+    margin-top:10px;
 }
-
-body, input, button {
-  font-family: 'Source Sans Pro', sans-serif;
+.nawigacja {
+    background-color: #3399FF;
+    text-align: right;
+ }
+x {
+    text-align: right;
+    color:white;
+    margin-right: 5px;
+    margin-top:5px;
 }
-.window1 {
-    position: relative;
-    background-image: url("28h3fwh.png");
-    border-radius: 10px;
-    height: 100%;
-    width: 33%;
+img {
+    margin-left: 10px;
+}
+.col-lg-4 {
+    background-color: white;
+    opacity: 0.8;
+    border: 1px solid;
+    min-height:600px !important;
+}
+.entry {
+    border: 1px solid;
+    margin-bottom: 2px;
+}
+p {
+    text-align: center;
 }
 h1 {
     color: white;
     text-align: center;
 }
-.user_menu {
-   text-align: right;
-}
-ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-
-}
-li {
-    display: inline;
-}
-.todo {
+h2 {
     text-align: center;
-    color: white;
+}
+.post {
+    text-align:left;
 }

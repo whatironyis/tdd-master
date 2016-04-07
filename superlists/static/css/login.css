@@ -20,7 +20,7 @@ body, input, button {
     height:250px;
     display: block;
     position: fixed;
-    top: 50%;
+    top: 30%;
     left: 50%;
     margin-left: -350px;
     margin-top: -150;
