@@ -69,3 +69,10 @@ def todo(request):
     b.save()
     resp = json.dumps({"HTTPRESPONSE":1})
     return HttpResponse(resp, content_type='application/json')
+
+def inpro(request):
+    value = request.POST.get("value")
+    b = jobs.objects.get(id=str(value))
+    b.flag='2'
+    b.save()
+    return HttpResponse(json.dumps({"HTTPRESPONSE":1}), content_type='application/json')

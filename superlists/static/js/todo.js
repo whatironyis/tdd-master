@@ -20,3 +20,15 @@ function todo(id)
             }
     });
 }
+
+function inpro(id)
+{
+    $.ajax({
+        url: "/inpro/",
+        type: "POST",
+        data: { 'value':id },
+        success: function(data){
+            window.location.reload(true);
+            }
+    });
+}

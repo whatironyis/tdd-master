@@ -27,13 +27,19 @@ img {
     opacity: 0.8;
     border: 1px solid;
     min-height:600px !important;
+    text-align: left;
 }
 .entry {
     border: 1px solid;
     margin-bottom: 2px;
+
 }
 p {
     text-align: center;
+
+}
+b {
+    font-weight: bold;
 }
 h1 {
     color: white;
@@ -44,4 +50,16 @@ h2 {
 }
 .post {
     text-align:left;
+}
+
+.prop
+{
+    text-align:left;
+}
+.popr1 {
+    margin-right:85%;
+    text-align: left;
+}
+.popr-box{
+    text-align: left;
 }

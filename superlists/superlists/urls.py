@@ -27,4 +27,5 @@ urlpatterns = [
     url(r'^new/$', views.post_new, name='post_new'),
     url(r'^edit/$', csrf_exempt(views.edit), name='edit'),
     url(r'^todo/$', csrf_exempt(views.todo), name='todo'),
+    url(r'^inpro/$', csrf_exempt(views.inpro), name='inpro'),
 ]
