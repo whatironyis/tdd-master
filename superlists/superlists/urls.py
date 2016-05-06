@@ -17,10 +17,14 @@ Including another URLconf
 from django.conf.urls import url,patterns,include
 from django.contrib import admin
 from lists import views
+from django.views.decorators.csrf import csrf_exempt
+
 urlpatterns = [
 	url(r'^$',views.home_page),
 	url(r'^admin/',include(admin.site.urls)),
     url(r'^login/$', views.Login),
     url(r'^logout/$', views.Logout),
     url(r'^new/$', views.post_new, name='post_new'),
+    url(r'^edit/$', csrf_exempt(views.edit), name='edit'),
+    url(r'^todo/$', csrf_exempt(views.todo), name='todo'),
 ]

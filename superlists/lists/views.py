@@ -2,12 +2,12 @@ from django.contrib.auth import authenticate, login, logout
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import render,render_to_response
+from django.shortcuts import *
 from lists.models import jobs
 from lists.models import donejob
 from superlists import settings
 from .forms import PostForm
-
+import json
 
 def Login(request):
     next = request.GET.get('next','/')
@@ -53,3 +53,19 @@ def post_new(request):
     else:
         form = PostForm()
     return render(request, 'post_edit.html', {'form': form})
+
+def edit(request):
+    value = request.POST.get("value")
+    b = jobs.objects.get(id=str(value))
+    b.flag = '1'
+    b.save()
+    resp = json.dumps({"HTTPRESPONSE":1})
+    return HttpResponse(resp, content_type='application/json')
+
+def todo(request):
+    value = request.POST.get("value")
+    b = jobs.objects.get(id=str(value))
+    b.flag = '3'
+    b.save()
+    resp = json.dumps({"HTTPRESPONSE":1})
+    return HttpResponse(resp, content_type='application/json')
