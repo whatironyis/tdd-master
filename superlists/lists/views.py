@@ -1,5 +1,7 @@
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import Group
 from django.utils import timezone
+from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import *
@@ -25,21 +27,18 @@ def Login(request):
         else:
             return HttpResponseRedirect(settings.LOGIN_URL)
     return render(request, 'login.html', {'redirect_to':next})
-
 def Logout(request):
     logout(request)
     return HttpResponseRedirect(settings.LOGIN_URL)
 @login_required
-def home_page(request):
-    items = jobs.objects.all()
+def home_page(request, name='1'):
+    items = jobs.objects.all().filter(group=name)
     done = donejob.objects.all()
     username = None
     if request.user.is_authenticated():
         username = request.user.username
-    return render_to_response('home.html', {'items': items, 'user' : username, 'done':done })
-
-def about_me_page(request):
-    pass
+        group = Group.objects.all()
+    return render_to_response('home.html', {'items': items, 'user' : username, 'group':group, 'done':done })
 
 def post_new(request):
     if request.method == "POST":
@@ -57,22 +56,26 @@ def post_new(request):
 def edit(request):
     value = request.POST.get("value")
     b = jobs.objects.get(id=str(value))
-    b.flag = '1'
+    b.flag = 'done'
     b.save()
-    resp = json.dumps({"HTTPRESPONSE":1})
-    return HttpResponse(resp, content_type='application/json')
+    #resp = json.dumps(b)
+    return HttpResponse()
 
 def todo(request):
     value = request.POST.get("value")
     b = jobs.objects.get(id=str(value))
-    b.flag = '3'
+    b.flag = 'todo'
     b.save()
-    resp = json.dumps({"HTTPRESPONSE":1})
-    return HttpResponse(resp, content_type='application/json')
+    #resp = json.dumps(b)
+    return HttpResponse()
 
 def inpro(request):
     value = request.POST.get("value")
     b = jobs.objects.get(id=str(value))
-    b.flag='2'
+    b.flag='wip'
     b.save()
-    return HttpResponse(json.dumps({"HTTPRESPONSE":1}), content_type='application/json')
+    return HttpResponse()
+#
+# def one(request):
+#     name = request.POST.get("name")
+#     return HttpResponseRedirect('home_page', {'name': name})

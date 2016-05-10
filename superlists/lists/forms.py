@@ -6,4 +6,4 @@ class PostForm(forms.ModelForm):
 
     class Meta:
         model = jobs
-        fields = ('name','description')
+        fields = ('name','description','group')

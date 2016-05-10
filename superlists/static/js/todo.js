@@ -4,7 +4,7 @@ function edit(id)
         url: "/edit/",
         type: "POST",
         data: { 'value':id },
-        success: function(data){
+        success: function(){
             window.location.reload(true);
         }
     });
@@ -15,7 +15,7 @@ function todo(id)
         url: "/todo/",
         type: "POST",
         data: { 'value':id },
-        success: function(data){
+        success: function(){
             window.location.reload(true);
             }
     });
@@ -27,8 +27,20 @@ function inpro(id)
         url: "/inpro/",
         type: "POST",
         data: { 'value':id },
-        success: function(data){
+        success: function(){
             window.location.reload(true);
             }
+    });
+}
+
+function filter(name)
+{
+    $.ajax({
+        url: "/",
+        type: "POST",
+        data: { 'name':name },
+        success: function(b){
+         window.location.reload(true);
+         }
     });
 }
