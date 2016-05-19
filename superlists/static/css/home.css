@@ -63,3 +63,25 @@ h2 {
 .popr-box{
     text-align: left;
 }
+.post
+{
+    text-align:left;
+}
+.form_window {
+    background-image: url("28h3fwh.png");
+    border-radius: 10px;
+    width:700px;
+    height:300px;
+    display: block;
+    position: fixed;
+    top: 30%;
+    left: 50%;
+    margin-left: -350px;
+    margin-top: -150;
+}
+.heading {
+    text-align: center;
+    margin-left:50px;
+    margin-top: 1%;
+    width: 600px;
+}

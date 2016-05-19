@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {% load staticfiles %}
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <script src="{% static 'js/jQuery-2.2.3.js' %}"></script>
+    <script src="{% static 'js/todo.js' %}"></script>
+    <script src="{% static 'js/interact.min.js' %}"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <link href="{% static 'popr/popr.css' %}" rel="stylesheet">
+    <script src="{% static 'popr/popr.min.js' %}"></script>
+    <script>
+        $(document).ready(function() {
+            $('.popr1').popr();
+        });
+    </script>
+    <title>To Do List - Jobs</title>
+</head>
+<body>
+<div class="nawigacja">
+    <a href="/"><img src="{% static 'css/todo.png' %}" alt="To Do List" align="left"></a>
+
+         <x></x>
+         <x></x>
+         <x><a href="" class="btn btn-danger">Rejestracja</a></x>
+</div>
+<div class="form_window">
+    <div class="heading">
+<form method="post" action=".">{% csrf_token %}
+        {{ form }}
+    <input type="submit" value="Register" />
+    </form>
+    </div>
+</div>
+</body>
+</html>

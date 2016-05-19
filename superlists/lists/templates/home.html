@@ -22,12 +22,7 @@
 <div class="nawigacja">
     <a href="/"><img src="{% static 'css/todo.png' %}" alt="To Do List" align="left"></a>
 
-    <select name="mydropdown" onchange="filter(value);">
-        {% for i in group %}
-        <option value="{{ i.id }}">{{ i.name}}</option>
-        {% endfor %}
-    </select>
-         <x>Użytkownik:{{ user }} </x>
+         <x>Użytkownik:{{ user }} Grupa: {{ group.0 }}</x>
          <x><a href="{% url 'post_new' %}" class="top-menu"><span class="glyphicon glyphicon-plus"></span></a></x>
          <x><a href="/logout" class="btn btn-danger" role="button">Logout</a></x>
 </div>
