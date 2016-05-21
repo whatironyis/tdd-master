@@ -42,12 +42,14 @@ class RegistrationForm(Form):
 
 class GroupForm(ModelForm):
     class Meta:
-        model = jobs
+        model = Group
         fields = ('name',)
         labels = {'name': _('')}
         widgets = {
             'name': TextInput(attrs={'class': "form-control","placeholder":"Group"}),
         }
     def clean_name(self):
-        raise ValidationError("Group already exists.")
+        for x in Group.objects.filter():
+            if self.data['name'] == str(x):
+                raise ValidationError("Group already exists.")
 
