@@ -52,13 +52,13 @@
 <div class="form_window">
     <div class="heading">
         <h2>Create or change group</h2>
-    <form method="post" action=".">{% csrf_token %}
+        <form method="post" action=".">{% csrf_token %}
                 {{ form }}
         {% if not group %}
         <button type="submit" name="add_group" class="btn btn-success">Create group</button>
         {% endif %}
         <button type="submit" name="change_group" class="btn btn-primary">Change group</button>
-    </form>
+        </form>
 
     </div>
 </div>

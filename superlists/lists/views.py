@@ -97,35 +97,27 @@ def post_edit(request, pk):
     return render(request, 'post_edit.html', {'form': form, 'pk': pk, 'group': group })
 @csrf_protect
 def group(request):
-    if request.user.is_authenticated():
-        username = request.user.username
-        group = request.user.groups.all()
-        print(group)
+    username = request.user.username
+    group = request.user.groups.all()
     if request.method == 'POST' and 'add_group' in request.POST:
-        form = GroupForma(request.POST)
+        form = GroupForm(request.POST)
         if form.is_valid():
             groups = Group.objects.get_or_create(
-            name=form.cleaned_data['groupy'])
-            groupy = request.POST.get("groupy")
-            g = Group.objects.get(name=groupy)
+            name=form.cleaned_data['name'])
+            g = Group.objects.get(name=group)
             user = request.user
             user.groups.add(g)
             return HttpResponseRedirect('/group')
     else:
-        form = GroupForma()
+        form = GroupForm()
     if request.method == 'POST' and 'change_group' in request.POST:
-        form = GroupForma(request.POST)
-        if form.is_valid():
             user = request.user
-            groupy = request.POST.get("groupy")
-            g = Group.objects.get(name=groupy)
+            group = request.POST.get("name")
+            g = Group.objects.get(name=group)
             user.groups.clear()
             user.groups.add(g)
-        return HttpResponseRedirect('/group')
-    else:
-        form = GroupForma()
-    return render(request, 'group.html', {'form': form, 'user': username,'group': group})
-
+            return HttpResponseRedirect('/group')
+    return render(request, 'group.html', {'user': username, 'group': group, 'form': form})
 def post_delete(request):
     value = request.POST.get("value")
     b = jobs.objects.get(id=str(value))
