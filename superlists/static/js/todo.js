@@ -32,15 +32,17 @@ function inpro(id)
             }
     });
 }
-
-function filter(name)
+function post_delete(pk)
 {
     $.ajax({
-        url: "/",
+        url: "/delete/",
         type: "POST",
-        data: { 'name':name },
-        success: function(b){
-         window.location.reload(true);
-         }
+        data: { 'value': pk },
+        success: function(){
+            console.log(window.location.host)
+            console.log(window.location.hostname)
+            http = window.location.services
+            document.location.href="/";
+        }
     });
 }

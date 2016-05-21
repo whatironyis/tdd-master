@@ -1,21 +1,26 @@
 import re
-from django import forms
+from django.forms import *
 from django.utils.translation import ugettext_lazy as _
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
+from django.shortcuts import *
+from django.template import RequestContext
 from .models import jobs
 
-class PostForm(forms.ModelForm):
-
+class PostForm(ModelForm):
     class Meta:
         model = jobs
-        fields = ('name','description','group')
-
-class RegistrationForm(forms.Form):
-
-    username = forms.RegexField(regex=r'^\w+$', widget=forms.TextInput(attrs={'class': "form-control","placeholder":"Nazwa uzytkownika"}),label=_(""), error_messages={ 'invalid': _("This value must contain only letters, numbers and underscores.") })
-    email = forms.EmailField(widget=forms.TextInput(attrs={'class': "form-control","placeholder":"E-Mail"}), label=_(""))
-    password1 = forms.CharField(widget=forms.PasswordInput(attrs={'class': "form-control","placeholder":"Haslo"}), label=_(""))
-    password2 = forms.CharField(widget=forms.PasswordInput(attrs={'class': "form-control","placeholder":"Ponownie haslo"}), label=_(""))
+        fields = ('name','description')
+        labels = { 'name': _(''),
+                   'description': _('')}
+        widgets = {
+            'name': TextInput(attrs={'class': "form-control", "placeholder":"Name"}),
+            'description': Textarea(attrs={'class': "form-control", "placeholder":"Description", 'rows': 5}),
+        }
+class RegistrationForm(Form):
+    username = RegexField(regex=r'^\w+$', widget=TextInput(attrs={'class': "form-control","placeholder":"Nazwa uzytkownika"}),label=_(""), error_messages={ 'invalid': _("This value must contain only letters, numbers and underscores.") })
+    email = EmailField(widget=TextInput(attrs={'class': "form-control","placeholder":"E-Mail"}), label=_(""))
+    password1 = CharField(widget=PasswordInput(attrs={'class': "form-control","placeholder":"Haslo"}), label=_(""))
+    password2 = CharField(widget=PasswordInput(attrs={'class': "form-control","placeholder":"Ponownie haslo"}), label=_(""))
 
     def clean_username(self):
         try:
@@ -29,3 +34,7 @@ class RegistrationForm(forms.Form):
             if self.cleaned_data['password1'] != self.cleaned_data['password2']:
                 raise forms.ValidationError(_("The two password fields did not match."))
         return self.cleaned_data
+
+class GroupForma(Form):
+    groupy = CharField(widget=TextInput(attrs={'class': "form-control","placeholder":"Group"}), label=_(""))
+

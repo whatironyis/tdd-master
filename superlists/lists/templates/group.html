@@ -49,21 +49,17 @@
                 <a href="/logout">Logout</a>
             </div>
 </div>
-</div>
 <div class="form_window">
     <div class="heading">
-        <h2>Job</h2>
-        <form method="POST" action=".">{% csrf_token %}
-            {{ form.as_p}}
-            {% if group %}
-                <button type="submit" class="btn btn-success">Save</button>
-            {% if pk %}
-                <button type="button" class="btn btn-danger" onclick="post_delete({{ pk }});">Remove</button>
-            {% endif %}
-            {% else %}
-                <button type="button" class="btn btn-warning" onclick="window.location.href='{% url 'group' %}'">Create or join group first</button>
-            {% endif %}
-        </form>
+        <h2>Create or change group</h2>
+    <form method="post" action=".">{% csrf_token %}
+                {{ form }}
+        {% if not group %}
+        <button type="submit" name="add_group" class="btn btn-success">Create group</button>
+        {% endif %}
+        <button type="submit" name="change_group" class="btn btn-primary">Change group</button>
+    </form>
+
     </div>
 </div>
 </body>

@@ -13,18 +13,44 @@
     <script src="{% static 'popr/popr.min.js' %}"></script>
     <script>
         $(document).ready(function() {
-            $('.popr1').popr();
+            $('.popr1').popr({
+            'mode': 'bottom'
+            });
         });
+
+        function myFunction() {
+            document.getElementById("myDropdown").classList.toggle("show");
+        }
+
+        // Close the dropdown menu if the user clicks outside of it
+        window.onclick = function(event) {
+            if (!event.target.matches('.dropbtn')) {
+
+            var dropdowns = document.getElementsByClassName("dropdown-content");
+            var i;
+            for (i = 0; i < dropdowns.length; i++) {
+                var openDropdown = dropdowns[i];
+                if (openDropdown.classList.contains('show')) {
+                    openDropdown.classList.remove('show');
+      }
+    }
+  }
+}
     </script>
     <title>To Do List - Jobs</title>
 </head>
 <body>
 <div class="nawigacja">
-    <a href="/"><img src="{% static 'css/todo.png' %}" alt="To Do List" align="left"></a>
-
-         <x>Użytkownik:{{ user }} Grupa: {{ group.0 }}</x>
-         <x><a href="{% url 'post_new' %}" class="top-menu"><span class="glyphicon glyphicon-plus"></span></a></x>
-         <x><a href="/logout" class="btn btn-danger" role="button">Logout</a></x>
+    <a href="/"><img class="image" src="{% static 'css/todo.png' %}" alt="To Do List" align="left"></a>
+        <x>User: {{ user }} Group: {{ group.0 }}</x>
+        <div class="dropdown">
+            <button onclick="myFunction()" class="dropbtn">Menu</button>
+            <div id="myDropdown" class="dropdown-content">
+                <a href="/new">Add Job</a>
+                <a href="/group">Add or Change Group</a>
+                <a href="/logout">Logout</a>
+            </div>
+</div>
 </div>
 <div class="container-fluid">
     <div class="col-lg-4 col-md-4 cold-sm-3">
@@ -32,12 +58,13 @@
         {% for x in items %}
             {% if  x.flag == 'todo' %}
                 <div class="entry">
-                    <div class="popr1" data-id="1"><button type="button" class="btn btn-default" aria-label="Left Align">
-                    <span class="glyphicon glyphicon-list" aria-hidden="false"></span>
-                    </button></div>
-                    <div class="popr-box" data-box-id="1">
-                        <a href=""><div class="popr-item" onclick="inpro({{ x.id }});">In Progress</div></a>
+                    <div class="popr1" data-id="{{ x.id }}">
+                        <button type="button" class="btn btn-default" style="border:none;" aria-label="Left Align"><span class="glyphicon glyphicon-list" aria-hidden="false"></span></button>
+                    </div>
+                    <div class="popr-box" data-box-id="{{ x.id }}">
+                        <a href=""><div class="popr-item" onclick="inpro({{ x.id }});">Wip</div></a>
                         <a href=""><div class="popr-item" onclick="edit({{ x.id }});">Done</div></a>
+                        <a href="{% url 'post_edit' pk=x.pk %}"><div class="popr-item">Edit</div></a>
                     </div>
                         <p><b>{{ x.name }} - {{ x.created|date:"D d M Y" }}</b></p>
                         <p>{{ x.description }}</p>
@@ -47,17 +74,20 @@
         {% endfor %}
     </div>
     <div class="col-lg-4 col-md-4 cold-sm-3">
-        <h2>In progress</h2>
+        <h2>Work in progress</h2>
         {% for x in items %}
             {% if x.flag == 'wip' %}
                 <div class="entry">
-                    <div class="popr1" data-id="2"><button type="button" class="btn btn-default" aria-label="Left Align">
+                    <div class="popr1" data-id="{{ x.id }}"><button type="button" class="btn btn-default" style="border:none;" aria-label="Left Align">
                     <span class="glyphicon glyphicon-list" aria-hidden="true"></span>
-                    </button></div>
-                    <div class="popr-box" data-box-id="2">
+                    </button>
+                    </div>
+                    <div class="popr-box" data-box-id="{{ x.id }}">
                         <a href=""><div class="popr-item" onclick="todo({{ x.id }});">To Do</div></a>
                         <a href=""><div class="popr-item" onclick="edit({{ x.id }});">Done</div></a>
+                        <a href="{% url 'post_edit' pk=x.pk %}"><div class="popr-item">Edit</div></a>
                     </div>
+
                         <p><b>{{ x.name }} - {{ x.created|date:"D d M Y" }}</b></p>
                         <p>{{ x.description }}</p>
                         <p>{{ x.assign }}</p>
@@ -70,13 +100,16 @@
         {% for x in items %}
             {% if x.flag == 'done' %}
                 <div class="entry">
-                    <div class="popr1" data-id="3"><button type="button" class="btn btn-default" aria-label="Left Align">
+                    <div class="popr1" data-id="{{ x.id }}"><button type="button" class="btn btn-default" style="border:none;" aria-label="Left Align">
                     <span class="glyphicon glyphicon-list" aria-hidden="true"></span>
-                    </button></div>
-                    <div class="popr-box" data-box-id="3">
-                        <a href=""><div class="popr-item" onclick="todo({{ x.id }});">To Do</div></a>
-                        <a href=""><div class="popr-item" onclick="inpro({{ x.id }});">In progress</div></a>
+                    </button>
                     </div>
+                    <div class="popr-box" data-box-id="{{ x.id }}">
+                        <a href=""><div class="popr-item" onclick="todo({{ x.id }});">To Do</div></a>
+                        <a href=""><div class="popr-item" onclick="inpro({{ x.id }});">Wip</div></a>
+                        <a href="{% url 'post_edit' pk=x.pk %}"><div class="popr-item">Edit</div></a>
+                    </div>
+
                         <p><b>{{ x.name }} - {{ x.created|date:"D d M Y" }}</b></p>
                         <p>{{ x.description }}</p>
                         <p>{{ x.assign }}</p>

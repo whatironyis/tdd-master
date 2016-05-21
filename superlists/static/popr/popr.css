@@ -9,13 +9,13 @@ http://www.tipue.com/popr
 
 .popr
 {
-     cursor: pointer;
+     cursor: pointer;   
 }
 .popr a
 {
      color: #333;
      text-decoration: none;
-     border: 0;
+     border: 0;    
 }
 .popr-box
 {
@@ -31,7 +31,7 @@ http://www.tipue.com/popr
 {
      font: 300 14px/1.7 'Helvetica Neue', Helvetica, Arial, sans-serif;
      color: #333;
-     padding: 4px 29px 5px 29px;
+     padding: 4px 29px 5px 29px; 
 }
 .popr-item:hover
 {

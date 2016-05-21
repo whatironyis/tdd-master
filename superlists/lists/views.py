@@ -10,7 +10,6 @@ from django.views.generic.edit import CreateView
 from django.contrib.auth.forms import UserCreationForm
 from django.template import RequestContext
 from lists.models import jobs
-from lists.models import donejob
 from superlists import settings
 from .forms import *
 import json
@@ -40,7 +39,7 @@ def home_page(request):
     if request.user.is_authenticated():
         username = request.user.username
         group = request.user.groups.all()
-        items = jobs.objects.all().filter(group=group[0])
+        items = jobs.objects.all().filter(group=group)
     return render_to_response('home.html', {'items': items, 'user' : username, 'group':group })
 @csrf_protect
 def register(request):
@@ -57,9 +56,10 @@ def register(request):
         form = RegistrationForm()
     return render(request, 'register.html', {'form': form})
 
-def register_success(request):
-    return render_to_response('login.html')
+
 def post_new(request):
+    username = request.user.username
+    group = request.user.groups.all()
     if request.method == "POST":
         form = PostForm(request.POST)
         if form.is_valid():
@@ -67,10 +67,70 @@ def post_new(request):
             jobs.assign = request.user
             jobs.created = timezone.now()
             jobs.finished = timezone.now()
+            jobs.group = request.user.groups.all()[0]
             jobs.save()
+            return HttpResponseRedirect('/')
     else:
         form = PostForm()
-    return render(request, 'post_edit.html', {'form': form})
+    return render(request, 'post_edit.html', {'user':username,'group': group, 'form': form})
+
+def post_detail(request, pk):
+    post = get_object_or_404(jobs, pk=pk)
+    return render(request, 'post_detail.html', {'post': post})
+
+def post_edit(request, pk):
+    post = get_object_or_404(jobs, pk=pk)
+    group = request.user.groups.all()
+    if request.method == "POST":
+        form = PostForm(request.POST, instance=post)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.assign = request.user
+            post.created = timezone.now()
+            post.finished = timezone.now()
+            post.group = request.user.groups.all()[0]
+            post.save()
+            return HttpResponseRedirect('/')
+    else:
+        form = PostForm(instance=post)
+        print(request.user.groups.all()[0])
+    return render(request, 'post_edit.html', {'form': form, 'pk': pk, 'group': group })
+@csrf_protect
+def group(request):
+    if request.user.is_authenticated():
+        username = request.user.username
+        group = request.user.groups.all()
+        print(group)
+    if request.method == 'POST' and 'add_group' in request.POST:
+        form = GroupForma(request.POST)
+        if form.is_valid():
+            groups = Group.objects.get_or_create(
+            name=form.cleaned_data['groupy'])
+            groupy = request.POST.get("groupy")
+            g = Group.objects.get(name=groupy)
+            user = request.user
+            user.groups.add(g)
+            return HttpResponseRedirect('/group')
+    else:
+        form = GroupForma()
+    if request.method == 'POST' and 'change_group' in request.POST:
+        form = GroupForma(request.POST)
+        if form.is_valid():
+            user = request.user
+            groupy = request.POST.get("groupy")
+            g = Group.objects.get(name=groupy)
+            user.groups.clear()
+            user.groups.add(g)
+        return HttpResponseRedirect('/group')
+    else:
+        form = GroupForma()
+    return render(request, 'group.html', {'form': form, 'user': username,'group': group})
+
+def post_delete(request):
+    value = request.POST.get("value")
+    b = jobs.objects.get(id=str(value))
+    b.delete()
+    return HttpResponseRedirect('/')
 
 def edit(request):
     value = request.POST.get("value")
@@ -78,7 +138,7 @@ def edit(request):
     b.flag = 'done'
     b.save()
     #resp = json.dumps(b)
-    return HttpResponse()
+    # return HttpResponse()
 
 def todo(request):
     value = request.POST.get("value")
@@ -86,15 +146,11 @@ def todo(request):
     b.flag = 'todo'
     b.save()
     #resp = json.dumps(b)
-    return HttpResponse()
+    # return HttpResponse()
 
 def inpro(request):
     value = request.POST.get("value")
     b = jobs.objects.get(id=str(value))
     b.flag='wip'
     b.save()
-    return HttpResponse()
-#
-# def one(request):
-#     name = request.POST.get("name")
-#     return HttpResponseRedirect('home_page', {'name': name})
+    # return HttpResponse()
