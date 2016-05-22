@@ -48,12 +48,12 @@ b {
     font-weight: bold;
 }
 h1 {
-    color: white;
+    color: #3366FF  !important;
     text-align: center;
 }
 h2 {
     text-align: center;
-    color: white; !important
+    color: #3366FF  !important;
 }
 .post {
     text-align:left;

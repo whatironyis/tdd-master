@@ -31,6 +31,7 @@ urlpatterns = [
     url(r'^post/(?P<pk>[0-9]+)/$', views.post_detail, name='post_detail'),
     url(r'^post/(?P<pk>[0-9]+)/edit/$', views.post_edit, name='post_edit'),
     url(r'^delete/$', csrf_exempt(views.post_delete), name='post_delete'),
+    url(r'^delete_group/$', csrf_exempt(views.delete_group)),
     url(r'^edit/$', csrf_exempt(views.edit), name='edit'),
     url(r'^todo/$', csrf_exempt(views.todo), name='todo'),
     url(r'^inpro/$', csrf_exempt(views.inpro), name='inpro'),

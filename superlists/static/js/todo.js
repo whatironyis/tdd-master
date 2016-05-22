@@ -46,3 +46,14 @@ function post_delete(pk)
         }
     });
 }
+function group_delete()
+{
+    $.ajax({
+        url: "/delete_group/",
+        type: "POST",
+        data: {},
+        success: function(){
+            window.location.reload(true);
+        }
+    });
+}

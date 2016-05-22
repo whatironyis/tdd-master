@@ -99,25 +99,34 @@ def post_edit(request, pk):
 def group(request):
     username = request.user.username
     group = request.user.groups.all()
-    if request.method == 'POST' and 'add_group' in request.POST:
-        form = GroupForm(request.POST)
-        if form.is_valid():
-            groups = Group.objects.get_or_create(
-            name=form.cleaned_data['name'])
-            g = Group.objects.get(name=group)
-            user = request.user
-            user.groups.add(g)
-            return HttpResponseRedirect('/group')
+    if request.method == 'POST':
+        if 'add_group' in request.POST:
+            form = GroupForm(request.POST)
+            form1 = ChangeForm(request.POST)
+            if form.is_valid():
+                groups = Group.objects.get_or_create(
+                name=form.cleaned_data['create_group'])
+                groupy = request.POST.get("create_group")
+                print (groupy)
+                g = Group.objects.get(name=groupy)
+                user = request.user
+                user.groups.add(g)
+                return HttpResponseRedirect('/group')
+        if 'change_group' in request.POST:
+            form1 = ChangeForm(request.POST)
+            form = GroupForm(request.POST)
+            if form1.is_valid():
+                user = request.user
+                groupa = request.POST.get("name")
+                g = Group.objects.get(name=groupa)
+                user.groups.clear()
+                user.groups.add(g)
+                return HttpResponseRedirect('/group')
     else:
         form = GroupForm()
-    if request.method == 'POST' and 'change_group' in request.POST:
-            user = request.user
-            group = request.POST.get("name")
-            g = Group.objects.get(name=group)
-            user.groups.clear()
-            user.groups.add(g)
-            return HttpResponseRedirect('/group')
-    return render(request, 'group.html', {'user': username, 'group': group, 'form': form})
+        form1 = ChangeForm()
+
+    return render(request, 'group.html', {'user': username, 'group': group, 'form': form,'form1': form1})
 def post_delete(request):
     value = request.POST.get("value")
     b = jobs.objects.get(id=str(value))
@@ -146,3 +155,10 @@ def inpro(request):
     b.flag='wip'
     b.save()
     # return HttpResponse()
+
+def delete_group(request):
+    g = request.user.groups.all()[0]
+    g.delete()
+    user = request.user
+    user.groups.clear()
+    return HttpResponse()

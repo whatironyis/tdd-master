@@ -40,16 +40,26 @@ class RegistrationForm(Form):
                 raise exceptions.ValidationError(_("The two password fields did not match."))
         return self.cleaned_data
 
-class GroupForm(ModelForm):
+class GroupForm(Form):
+
+    create_group = CharField(required=True, widget=TextInput(attrs={'class': "form-control","placeholder":"Group"}), label=_(""))
+
+    def clean_create_group(self):
+        for x in Group.objects.filter():
+            if self.data['create_group'] == str(x):
+                raise ValidationError("Group already exists.")
+        return self.cleaned_data['create_group']
+
+class ChangeForm(ModelForm):
     class Meta:
         model = Group
         fields = ('name',)
         labels = {'name': _('')}
         widgets = {
-            'name': TextInput(attrs={'class': "form-control","placeholder":"Group"}),
+            'name': TextInput(attrs={'class': "form-control","placeholder":"Change Group"}),
         }
     def clean_name(self):
         for x in Group.objects.filter():
-            if self.data['name'] == str(x):
-                raise ValidationError("Group already exists.")
+            if self.data['name'] != str(x):
+                raise ValidationError("Group doesn`t exist.")
 
